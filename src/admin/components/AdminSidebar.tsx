@@ -24,7 +24,7 @@ export const AdminSidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle }) 
 
   const menuItems = [
     { icon: Home, label: 'Dashboard', to: '/admin' },
-    { icon: BarChart3, label: 'Productos', to: '/admin/product' },
+    { icon: BarChart3, label: 'Productos', to: '/admin/products' },
     { icon: Users, label: 'Usuarios' },
     { icon: ShoppingCart, label: 'Ordenes' },
     { icon: FileText, label: 'Reportes' },
@@ -34,7 +34,9 @@ export const AdminSidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle }) 
   ];
 
   const isActiveRoute = (to: string) => {
-    // TODO: ajustarlo cuando estemos en la pantalla del producto
+    if (pathname.includes('/admin/products/') && to === '/admin/products') {
+      return true;
+    }
 
     return pathname === to;
   }
