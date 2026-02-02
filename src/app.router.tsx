@@ -42,8 +42,8 @@ export const appRouter = createBrowserRouter([
         element: <AdminLayout />,
         children: [
             { index: true, element: <DashboardPage /> },
-            { path: 'product', element: <AdminProductPage /> },
-            { path: 'products/:id', element: <AdminProductsPage /> },
+            { path: 'products', element: <AdminProductsPage /> },
+            { path: 'products/:id', element: <AdminProductPage /> },
         ]
     },
     { path: '*', element: <Navigate to="/" /> }
