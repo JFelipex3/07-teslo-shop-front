@@ -3,7 +3,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import type { Size } from "@/interfaces/product.interface";
 
 interface ProductCardProps {
-  id: string;
   name: string;
   price: number;
   image: string;
@@ -11,7 +10,7 @@ interface ProductCardProps {
   sizes: Size[];
 }
 
-export const ProductCard = ({ id, name, price, image, category, sizes }: ProductCardProps) => {
+export const ProductCard = ({ name, price, image, category, sizes }: ProductCardProps) => {
   return (
     <Card className="group border-0 shadow-none product-card-hover cursor-pointer">
       <CardContent className="p-0">
