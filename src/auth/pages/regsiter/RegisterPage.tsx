@@ -3,14 +3,50 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { CustomLogo } from "@/components/custom/CustomLogo"
-import { Link } from "react-router"
+import { Link, useNavigate } from "react-router"
+import { useState } from "react"
+import { toast } from "sonner"
+import { useAuthStore } from "@/auth/store/auth.store"
 
 export const RegisterPage = () => {
+
+  const navigate = useNavigate();
+  const { register } = useAuthStore();
+  const [isPosting, setIsPosting] = useState(false);
+  
+  const handleSubmit = async(event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setIsPosting(true);
+
+    const formData = new FormData(event.target as HTMLFormElement);
+    const email = formData.get('email') as string;
+    const password = formData.get('password') as string;
+    const repassword = formData.get('repassword') as string;
+    const fullName = formData.get('fullname') as string;
+
+    if ( password !== repassword ) {
+      toast.error('Las contraseñas no coinciden. Por favor, verifica e intenta nuevamente.');
+      setIsPosting(false);
+      return;
+    }
+
+    const hasSuccess = await register(email, password, fullName);
+
+    if ( hasSuccess ) {
+      navigate('/'); 
+      return;
+    }
+
+    toast.error('Error al crear la cuenta. Por favor, verifica tus datos e intenta nuevamente.');
+    setIsPosting(false);
+
+  }
+
   return (
     <div className={'flex flex-col gap-6'}>
       <Card className="overflow-hidden p-0">
         <CardContent className="grid p-0 md:grid-cols-2">
-          <form className="p-6 md:p-8">
+          <form className="p-6 md:p-8" onSubmit={ handleSubmit }>
             <div className="flex flex-col gap-6">
               <div className="flex flex-col items-center text-center">
                 <CustomLogo />
@@ -18,21 +54,21 @@ export const RegisterPage = () => {
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="fullname">Nombre Completo</Label>
-                <Input id="fullname" type="text" placeholder="Nombre" required />
+                <Input id="fullname" name="fullname" type="text" placeholder="Nombre" required />
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="email">Correo</Label>
-                <Input id="email" type="email" placeholder="mail@google.com" required />
+                <Input id="email" name="email" type="email" placeholder="mail@google.com" required />
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="password">Contraseña</Label>
-                <Input id="password" type="password" placeholder="Contraseña" required />
+                <Input id="password" name="password" type="password" placeholder="Contraseña" required />
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="repassword">Repite Contraseña</Label>
-                <Input id="repassword" type="password" placeholder="Contraseña" required />
+                <Input id="repassword" name="repassword" type="password" placeholder="Contraseña" required />
               </div>
-              <Button type="submit" className="w-full">
+              <Button type="submit" className="w-full" disabled={isPosting}>
                 Crear
               </Button>
               <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
