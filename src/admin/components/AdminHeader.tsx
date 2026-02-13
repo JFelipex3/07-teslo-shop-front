@@ -1,10 +1,11 @@
 import React from 'react';
 import { Search, Bell, MessageSquare, Settings } from 'lucide-react';
 import { useAuthStore } from '@/auth/store/auth.store';
+import { Button } from '@/components/ui/button';
 
 export const AdminHeader: React.FC = () => {
 
-  const { user, getInitialName } = useAuthStore();
+  const { getInitialName, logout } = useAuthStore();
 
   return (
     <header className="bg-white border-b border-gray-200 px-6 py-4 h-18">
@@ -39,6 +40,8 @@ export const AdminHeader: React.FC = () => {
           <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold text-sm cursor-pointer hover:shadow-lg transition-shadow">
             { getInitialName() }
           </div>
+
+          <Button variant="outline" size="sm" className="ml-2" onClick={ logout }>Cerrar sesión</Button>
         </div>
       </div>
     </header>
