@@ -13,6 +13,7 @@ type AuthState = {
 
     // Getters
     getInitialName: () => string | null;
+    isAdmin: () => boolean;
 
     // Actions
     login: (email: string, password: string) => Promise<boolean>;
@@ -20,7 +21,7 @@ type AuthState = {
     chechAuthStatus: () => Promise<boolean>;
 }
 
-export const useAuthStore = create<AuthState>()((set) => ({
+export const useAuthStore = create<AuthState>()((set, get) => ({
   // Properties
   user: null,
   token: null,
@@ -33,6 +34,11 @@ export const useAuthStore = create<AuthState>()((set) => ({
     if (!user) return null;
 
     return user.fullName.split(' ').map(name => name[0]).join('');
+  },
+
+  isAdmin: () => {
+    const roles = get().user?.roles || [];
+    return roles.includes('admin');
   },
 
   // Actions
