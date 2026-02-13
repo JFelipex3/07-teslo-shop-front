@@ -16,7 +16,7 @@ export const LoginPage = () => {
   const [isPosting, setIsPosting] = useState(false);
 
   const handleLogin = async( event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault(); // Previene la propagación del formulario}
+    event.preventDefault(); // Previene la propagación del formulario
     setIsPosting(true);
 
     const formData = new FormData(event.target as HTMLFormElement);
