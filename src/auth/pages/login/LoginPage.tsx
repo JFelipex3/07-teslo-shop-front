@@ -1,16 +1,18 @@
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { CustomLogo } from "@/components/custom/CustomLogo"
-import { Link, useNavigate } from "react-router"
-import { useState, type FormEvent } from "react"
-import { loginAction } from "@/auth/actions/login.action"
-import { toast } from "sonner"
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { CustomLogo } from '@/components/custom/CustomLogo';
+import { Link, useNavigate } from 'react-router';
+import { useState, type FormEvent } from 'react';
+import { toast } from 'sonner';
+import { useAuthStore } from '@/auth/store/auth.store';
 
 export const LoginPage = () => {
 
   const navigate = useNavigate();
+  const { login } = useAuthStore();
+
   const [isPosting, setIsPosting] = useState(false);
 
   const handleLogin = async( event: FormEvent<HTMLFormElement>) => {
@@ -20,18 +22,16 @@ export const LoginPage = () => {
     const formData = new FormData(event.target as HTMLFormElement);
     const email = formData.get('email') as string;
     const password = formData.get('password') as string;
-
-    try {
-      const data = await loginAction(email, password);
-      localStorage.setItem('token', data.token);
-      console.log('Redireccionando a otra página');
-      navigate('/'); // Redirige a la página principal después del login exitoso
-    } catch (error) {
-      toast.error('Error al iniciar sesión. Por favor, verifica tus credenciales e intenta nuevamente.');
-    }
     
-    setIsPosting(false);
+    const hasSuccess = await login(email, password);
 
+    if ( hasSuccess ) {
+      navigate('/'); 
+      return;
+    }
+
+    toast.error('Error al iniciar sesión. Por favor, verifica tus credenciales e intenta nuevamente.');
+    setIsPosting(false);
   }
 
   return (
