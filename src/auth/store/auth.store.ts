@@ -11,6 +11,7 @@ type AuthState = {
     authStatus: AuthStatus;
 
     // Getters
+    getInitialName: () => string | null;
 
     // Actions
     login: (email: string, password: string) => Promise<boolean>;
@@ -18,11 +19,21 @@ type AuthState = {
 }
 
 export const useAuthStore = create<AuthState>()((set) => ({
-  // implementación del store
+  // Properties
   user: null,
   token: null,
   authStatus: 'checking',
 
+  // Getters
+  getInitialName: (): string | null => {
+    const user: User | null = useAuthStore.getState().user;
+
+    if (!user) return null;
+
+    return user.fullName.split(' ').map(name => name[0]).join('');
+  },
+
+  // Actions
   login: async(email: string, password: string) => {
 
     try {
