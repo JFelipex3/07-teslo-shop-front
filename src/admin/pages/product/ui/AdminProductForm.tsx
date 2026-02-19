@@ -6,7 +6,7 @@ import { useRef, useState } from 'react';
 import { Link } from 'react-router';
 import { useForm } from 'react-hook-form';
 import { cn } from '@/lib/utils';
-import { Size } from '../../../../interfaces/product.interface';
+import type { Size } from '../../../../interfaces/product.interface';
 
 interface Props {
   title: string;
