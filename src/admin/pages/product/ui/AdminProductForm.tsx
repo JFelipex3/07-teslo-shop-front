@@ -12,11 +12,14 @@ interface Props {
   title: string;
   subTitle: string;
   product: Product;
+
+  // Methods
+  onSubmit: (productLike: Partial<Product>) => Promise<void>;
 }
 
 const availableSizes: Size[] = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
 
-export const AdminProductForm = ({ title, subTitle, product }: Props) => {
+export const AdminProductForm = ({ title, subTitle, product, onSubmit }: Props) => {
   
   const { register, 
           handleSubmit, 
@@ -85,11 +88,6 @@ export const AdminProductForm = ({ title, subTitle, product }: Props) => {
     const files = e.target.files;
     console.log(files);
   };
-
-  //TODO: Remover en un futuro
-  const onSubmit = ( productLike: Product ) => {
-    console.log({ productLike });
-  }
 
   return (
     <>
@@ -229,7 +227,7 @@ export const AdminProductForm = ({ title, subTitle, product }: Props) => {
                     <option value="men">Hombre</option>
                     <option value="women">Mujer</option>
                     <option value="unisex">Unisex</option>
-                    <option value="kids">Niño</option>
+                    <option value="kid">Niño</option>
                   </select>
                 </div>
 
