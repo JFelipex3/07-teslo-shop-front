@@ -54,11 +54,10 @@ export const AdminProductForm = ({ title, subTitle, product }: Props) => {
     setValue('sizes', Array.from(sizeSet));
   };
 
-  const removeSize = (sizeToRemove: string) => {
-    // setProduct((prev) => ({
-    //   ...prev,
-    //   sizes: prev.sizes.filter((size) => size !== sizeToRemove),
-    // }));
+  const removeSize = (sizeToRemove: Size) => {
+    const sizeSet = new Set( getValues('sizes') );
+    sizeSet.delete(sizeToRemove);
+    setValue('sizes', Array.from(sizeSet));
   };
 
   const handleDrag = (e: React.DragEvent) => {
@@ -274,7 +273,8 @@ export const AdminProductForm = ({ title, subTitle, product }: Props) => {
                     >
                       {size}
                       <button
-                        // onClick={() => removeSize(size)}
+                        type="button"
+                        onClick={() => removeSize(size)}
                         className="ml-2 text-blue-600 hover:text-blue-800 transition-colors duration-200"
                       >
                         <X className="h-3 w-3" />
