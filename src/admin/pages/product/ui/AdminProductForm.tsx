@@ -275,7 +275,7 @@ export const AdminProductForm = ({ title, subTitle, product }: Props) => {
                       <button
                         type="button"
                         onClick={() => removeSize(size)}
-                        className="ml-2 text-blue-600 hover:text-blue-800 transition-colors duration-200"
+                        className="cursor-pointer ml-2 text-blue-600 hover:text-blue-800 transition-colors duration-200"
                       >
                         <X className="h-3 w-3" />
                       </button>
